@@ -130,6 +130,8 @@ def delete_student():
         print("Student Not Found")
 
     conn.close()  
+from prettytable import PrettyTable
+
 def student_report():
 
     conn = connect_db()
@@ -157,8 +159,19 @@ def student_report():
         conn.close()
         return
 
-    print("\n----- STUDENT DETAILS -----")
-    print(student)
+    print("\n========== STUDENT DETAILS ==========")
+
+    student_table = PrettyTable()
+    student_table.field_names = [
+        "Student ID",
+        "Name",
+        "Branch",
+        "Year",
+        "Phone"
+    ]
+
+    student_table.add_row(student)
+    print(student_table)
 
     # Attendance Details
     attendance_query = """
@@ -170,10 +183,19 @@ def student_report():
     cursor.execute(attendance_query, (student_id,))
     attendance = cursor.fetchone()
 
-    print("\n----- ATTENDANCE -----")
+    print("\n========== ATTENDANCE ==========")
 
     if attendance:
-        print(attendance)
+
+        attendance_table = PrettyTable()
+        attendance_table.field_names = [
+            "Total Classes",
+            "Attended Classes",
+            "Percentage"
+        ]
+
+        attendance_table.add_row(attendance)
+        print(attendance_table)
 
     else:
         print("No Attendance Record")
@@ -188,11 +210,20 @@ def student_report():
     cursor.execute(marks_query, (student_id,))
     marks = cursor.fetchall()
 
-    print("\n----- MARKS -----")
+    print("\n========== MARKS ==========")
 
     if marks:
+
+        marks_table = PrettyTable()
+        marks_table.field_names = [
+            "Subject",
+            "Marks"
+        ]
+
         for row in marks:
-            print(row)
+            marks_table.add_row(row)
+
+        print(marks_table)
 
     else:
         print("No Marks Record")

@@ -16,7 +16,7 @@ def add_attendance():
         conn.close()
         return
 
-    percentage = (attended_classes / total_classes) * 100
+    percentage = round((attended_classes / total_classes) * 100, 2)
 
     query = """
     INSERT INTO attendance

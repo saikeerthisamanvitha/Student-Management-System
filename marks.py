@@ -8,6 +8,7 @@ def add_marks():
 
     try:
         student_id = int(input("Enter Student ID: "))
+        subject = input("Enter Subject Name: ")
         marks = int(input("Enter Marks: "))
 
     except ValueError:
@@ -15,7 +16,6 @@ def add_marks():
         conn.close()
         return
 
-    subject = input("Enter Subject Name: ")
 
     query = """
     INSERT INTO marks(student_id, subject, marks)
